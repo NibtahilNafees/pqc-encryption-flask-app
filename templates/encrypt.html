@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card bg-dark-blur border-0 shadow">
+            <div class="card-header bg-transparent border-bottom">
+                <h2 class="h4 mb-0"><i class="bi bi-lock me-2"></i>Encrypt Message</h2>
+            </div>
+            <div class="card-body">
+                {% if not has_key %}
+                <div class="alert alert-warning d-flex align-items-center" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <div>
+                        <strong>No encryption key found!</strong>
+                        <p class="mb-0">You must <a href="{{ url_for('keygen') }}" class="alert-link">generate a key</a>
+                            before you can encrypt messages.</p>
+                    </div>
+                </div>
+                {% endif %}
+
+                <form method="POST" class="needs-validation" novalidate>
+                    <div class="mb-4">
+                        <label for="message" class="form-label">Message to Encrypt</label>
+                        <textarea name="message" class="form-control bg-dark border-dark" rows="6" required
+                            placeholder="Enter your sensitive message here..."></textarea>
+                        <div class="invalid-feedback">Please enter a message to encrypt.</div>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-info btn-lg rounded-pill py-3 hover-effect" {% if not
+                            has_key %}disabled{% endif %}>
+                            <i class="bi bi-lock-fill me-2"></i>
+                            {% if has_key %}Encrypt Message{% else %}Generate Key First{% endif %}
+                        </button>
+                    </div>
+                </form>
+
+                {% if ciphertext %}
+                <div class="mt-5">
+                    <h5 class="mb-3"><i class="bi bi-file-lock2 me-2"></i>Encrypted Message:</h5>
+                    <div class="position-relative">
+                        <pre class="p-3">{{ ciphertext }}</pre>
+                        <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2 copy-btn"
+                            data-clipboard-text="{{ ciphertext }}" title="Copy to clipboard">
+                            <i class="bi bi-clipboard"></i>
+                        </button>
+                    </div>
+                    <div class="mt-3 d-flex gap-2">
+                        <a href="{{ url_for('decrypt') }}" class="btn btn-success rounded-pill hover-effect">
+                            <i class="bi bi-unlock me-2"></i>Decrypt Message
+                        </a>
+                        <a href="{{ url_for('home') }}" class="btn btn-outline-light rounded-pill hover-effect">
+                            <i class="bi bi-house me-2"></i>Return Home
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

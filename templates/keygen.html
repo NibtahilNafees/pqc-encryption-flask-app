@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card bg-dark-blur border-0 shadow">
+            <div class="card-header bg-transparent border-bottom">
+                <h2 class="h4 mb-0"><i class="bi bi-key me-2"></i>Key Generation</h2>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-4">Generate a new post-quantum cryptographic key pair. This key will be used for
+                    both encryption and decryption operations.</p>
+
+                <form method="POST" class="needs-validation" novalidate>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg rounded-pill py-3 hover-effect">
+                            <i class="bi bi-key me-2"></i>Generate Key
+                        </button>
+                    </div>
+                </form>
+
+                {% if public_key %}
+                <div class="mt-5">
+                    <h5 class="mb-3"><i class="bi bi-key-fill me-2"></i>Your Public Key:</h5>
+                    <div class="position-relative">
+                        <pre class="p-3">{{ public_key }}</pre>
+                        <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2 copy-btn"
+                            data-clipboard-text="{{ public_key }}" title="Copy to clipboard">
+                            <i class="bi bi-clipboard"></i>
+                        </button>
+                    </div>
+                    <div class="mt-3 d-flex gap-2">
+                        <a href="{{ url_for('encrypt') }}" class="btn btn-info rounded-pill hover-effect">
+                            <i class="bi bi-lock me-2"></i>Encrypt Message
+                        </a>
+                        <a href="{{ url_for('home') }}" class="btn btn-outline-light rounded-pill hover-effect">
+                            <i class="bi bi-house me-2"></i>Return Home
+                        </a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
