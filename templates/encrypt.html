@@ -19,18 +19,20 @@
                 {% endif %}
 
                 <form method="POST" class="needs-validation" novalidate>
+                    {{ form.csrf_token }}
                     <div class="mb-4">
-                        <label for="message" class="form-label">Message to Encrypt</label>
-                        <textarea name="message" class="form-control bg-dark border-dark" rows="6" required
-                            placeholder="Enter your sensitive message here..."></textarea>
-                        <div class="invalid-feedback">Please enter a message to encrypt.</div>
+                        {{ form.message.label(class="form-label") }}
+                        {{ form.message(class="form-control bg-dark border-dark", rows="6", placeholder="Enter your sensitive message here...") }}
+                        {% if form.message.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.message.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
                     </div>
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-info btn-lg rounded-pill py-3 hover-effect" {% if not
-                            has_key %}disabled{% endif %}>
-                            <i class="bi bi-lock-fill me-2"></i>
-                            {% if has_key %}Encrypt Message{% else %}Generate Key First{% endif %}
-                        </button>
+                        {{ form.submit(class="btn btn-info btn-lg rounded-pill py-3 hover-effect", disabled=not has_key) }}
                     </div>
                 </form>
 
